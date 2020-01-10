@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.health.dao.CheckItemDao">
+    <sql id="selectCheckItem from t_checkitem">
+        select id,code,name,sex,age,price,type,remark,attention from t_checkitem
+    </sql>
+    <insert id="addCheckItem" parameterType="CheckItem">
+        insert into t_checkitem values(#{id},#{code},#{name},#{sex},#{age},#{price},#{type},#{attention},#{remark})
+    </insert>
+
+    <select id="findPage" parameterType="String" resultType="checkItem">
+        <include refid="selectCheckItem"></include>
+        <where>
+            <if test="value !=null and value.length>0">
+                code like '%${value}%' or name '%${value}%'
+            </if>
+        </where>
+    </select>
+    <delete id="deleteCheckItemById" parameterType="interger">
+        delete from t_checkitem where id=#{id}
+    </delete>
+</mapper>
